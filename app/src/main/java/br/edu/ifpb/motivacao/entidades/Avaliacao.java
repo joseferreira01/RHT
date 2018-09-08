@@ -42,6 +42,7 @@ public class Avaliacao implements Serializable {
 
     public Avaliacao() {
         necessidades = new HashSet<>();
+        this.afirmativas = new HashSet<>();
     }
 
     public Avaliacao(Usuario usuario) {
@@ -112,7 +113,11 @@ public class Avaliacao implements Serializable {
 
     @Override
     public String toString() {
-        return "br.edu.ifpb.motivacao.entidades.Avaliacao[ id=" + id + " ]";
+        return "Avaliacao{" + "id=" + id + ", entrevistado=" +
+                entrevistado + ", avaliador=" + avaliador + 
+                ", necessidades=" + necessidades + ", afirmativas=" + afirmativas + '}';
     }
+
+   
 
 }

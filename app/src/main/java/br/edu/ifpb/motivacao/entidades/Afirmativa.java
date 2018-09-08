@@ -7,6 +7,7 @@ package br.edu.ifpb.motivacao.entidades;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 
 import javax.persistence.Id;
 
@@ -19,25 +20,31 @@ public class Afirmativa implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    private Long id;
+    @GeneratedValue
+    private int id;
     private String tex;
     private int resposta;
 
     public Afirmativa() {
     }
 
-    public Afirmativa(Long id, String tex) {
+    public Afirmativa(int id, String tex) {
         this.id = id;
+        this.tex = tex;
+      
+    }
+    public Afirmativa( String tex) {
+     
         this.tex = tex;
       
     }
     
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -56,23 +63,27 @@ public class Afirmativa implements Serializable {
     public void setResposta(int resposta) {
         this.resposta = resposta;
     }
-    
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 67 * hash + this.id;
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Afirmativa)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Afirmativa other = (Afirmativa) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Afirmativa other = (Afirmativa) obj;
+        if (this.id != other.id) {
             return false;
         }
         return true;
@@ -80,7 +91,14 @@ public class Afirmativa implements Serializable {
 
     @Override
     public String toString() {
-        return "br.edu.ifpb.motivacao.Afirmativa[ id=" + id + " ]";
+        return "Afirmativa{" + "id=" + id + ", tex=" + tex + ", resposta=" + resposta + '}';
     }
+    
+
+   
+
+    
+
+   
     
 }
