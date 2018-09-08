@@ -1,0 +1,17 @@
+version: '2'
+services:
+    postgres:
+        image: jose/motivacao
+        build: ./database
+        container_name: bancoamotivacao
+        ports:
+          - "5433:5432" 
+    web:
+        image: jose/motivacaojsf
+        build: ./app
+        container_name: appmotivacao
+        ports:
+          - "8082:8080"
+        links:
+          - "postgres:host-banco" 
+  
