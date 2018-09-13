@@ -22,9 +22,13 @@ public class UsuarioRepositorio {
     private EntityManager em;
 
     public Usuario login(String email, String senha) {
-        StringBuffer sql = new StringBuffer("u FROM Usuario u WHERE u.senha= ").
-                append(senha).append(" AND u.email= ").append(email).append("");
-        System.err.println("query login"+sql.toString());
-        return em.createQuery(sql.toString(), Usuario.class).getSingleResult();
+//        StringBuffer sql = new StringBuffer("u FROM Usuario u WHERE u.senha= ").
+//                append(senha).append(" AND u.email= ").append(email).append("");
+        String sql = "SELECT u FROM Usuario u WHERE u.email =:email AND u.senha =:senha";
+        System.err.println("query login" + sql);
+            
+        return em.createQuery(sql.toString(), Usuario.class).
+                setParameter("email", email)
+                .setParameter("senha", senha).getSingleResult();
     }
 }
