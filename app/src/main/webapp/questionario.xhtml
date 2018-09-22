@@ -17,19 +17,24 @@
                 <h:outputLabel value="#{item.tex}"/>
                 <br/>
                 <h:selectOneRadio value="#{item.resposta}">
-                    <f:selectItem itemValue="1" itemLabel="Concordo" />
-                    <f:selectItem itemValue="0" itemLabel="estou em duvida" />
-                    <f:selectItem itemValue="-1" itemLabel="não Concordo" />
+                    <f:selectItem itemValue="3" itemLabel="Concordo inteiramente" />
+                    <f:selectItem itemValue="2" itemLabel="concordo" />
+                    <f:selectItem itemValue="1" itemLabel="Concordo parcialmente" />
+                    <f:selectItem itemValue="0" itemLabel="Estou em duvida" />
+                    <f:selectItem itemValue="-1" itemLabel="Discordo parcialmente" />
+                    <f:selectItem itemValue="-2" itemLabel="Discordo" />
+                    <f:selectItem itemValue="-3" itemLabel="Discordo inteiramente" />
+                    <f
 
-                </h:selectOneRadio> <br />        
-            </c:forEach>
-            <h:commandButton value="salve" action="#{avaliacaoControler.salvar()}"/>
-        </h:form>
-        <br/>
-        <br/>
-        <br/>
-        <h:outputLabel value="#{avaliacaoControler.todos}"/>
+            </h:selectOneRadio> <br />        
+        </c:forEach>
+        <h:commandButton value="salve" action="#{avaliacaoControler.salvar()}"/>
+    </h:form>
+    <br/>
+    <br/>
+    <br/>
+    <h:outputLabel value="#{avaliacaoControler.todos}"/>
 
-    </h:body>
+</h:body>
 </html>
 
