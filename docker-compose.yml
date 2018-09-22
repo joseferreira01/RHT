@@ -14,6 +14,8 @@ services:
         container_name: appmotivacao
         ports:
           - "8082:8080"
+        volumes:
+          - ./app/target:/opt/payara5/glassfish/domains/domain1/autodeploy/
         links:
           - "postgres:host-banco" 
   
