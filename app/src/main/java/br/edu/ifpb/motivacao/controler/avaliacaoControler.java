@@ -7,13 +7,19 @@ package br.edu.ifpb.motivacao.controler;
 
 import br.edu.ifpb.motivacao.entidades.Afirmativa;
 import br.edu.ifpb.motivacao.entidades.Avaliacao;
+import br.edu.ifpb.motivacao.entidades.Pergunta;
+import br.edu.ifpb.motivacao.entidades.Tipo;
+import br.edu.ifpb.motivacao.entidades.Usuario;
 import br.edu.ifpb.motivacao.service.AvalicaoService;
+import br.edu.ifpb.motivacao.service.PerguntaService;
+import br.edu.ifpb.motivacao.service.UsuarioService;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -29,16 +35,21 @@ public class avaliacaoControler implements Serializable{
 
     @EJB
     private AvalicaoService service;
+    @EJB
+    private PerguntaService perguntaService;
+
+    @EJB
+    private UsuarioService usuarioService;
     private Avaliacao avaliacao;
-    private Afirmativa afirmativa;
+   // private Afirmativa afirmativa;
 
-    public Afirmativa getAfirmativa() {
-        return afirmativa;
-    }
-
-    public void setAfirmativa(Afirmativa afirmativa) {
-        this.afirmativa = afirmativa;
-    }
+//    public Afirmativa getAfirmativa() {
+//        return afirmativa;
+//    }
+//
+//    public void setAfirmativa(Afirmativa afirmativa) {
+//        this.afirmativa = afirmativa;
+//    }
     
     
 
@@ -51,11 +62,22 @@ public class avaliacaoControler implements Serializable{
 
     @PostConstruct
     public void init() {
-        this.avaliacao = new Avaliacao();
-        avaliacao.addAfirmativa(new Afirmativa( "p1"));
-        avaliacao.addAfirmativa(new Afirmativa( "p2"));
-        avaliacao.addAfirmativa(new Afirmativa( "p3"));
-       
+         Usuario user = (Usuario) FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getSessionMap().get("usuario");
+       this.avaliacao =  service.buscarPorUsuario(user);
+         List<Pergunta> perguntas = perguntaService.buscarTodos();
+         for (Pergunta pergunta : perguntas) {
+             avaliacao.addAfirmativa(new Afirmativa(pergunta));
+            
+        }
+         //avaliacao.setAvaliador(service1.buscar(51L));
+//        avaliacao.setEntrevistado(service1.buscar(151L));
+//        afirmativa = new Afirmativa();
+//        afirmativa.setId(1);
+//        afirmativa.setPergunta(new Pergunta(1L, "pergunta A"));
+//        avaliacao.addAfirmativa(afirmativa);
+      
     }
 public  List<Avaliacao> getTodos(){
     return service.buscarTodos();

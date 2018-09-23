@@ -6,6 +6,7 @@
 package br.edu.ifpb.motivacao.service;
 
 import br.edu.ifpb.motivacao.entidades.Avaliacao;
+import br.edu.ifpb.motivacao.entidades.Tipo;
 import br.edu.ifpb.motivacao.entidades.Usuario;
 import br.edu.ifpb.motivacao.repositorios.Repository;
 import br.edu.ifpb.motivacao.repositorios.UsuarioRepositorio;
@@ -30,6 +31,15 @@ public class AvalicaoService {
 
     public List<Avaliacao> buscarTodos() {
         return crud.list(Avaliacao.class);
+    }
+
+    public Avaliacao buscarPorUsuario(Usuario user) {
+        List<Avaliacao> list = crud.list(Avaliacao.class);
+        for (Avaliacao a : list) {
+            if(a.getEntrevistado().equals(user))
+            return a;
+        }
+        return new Avaliacao();
     }
   
 

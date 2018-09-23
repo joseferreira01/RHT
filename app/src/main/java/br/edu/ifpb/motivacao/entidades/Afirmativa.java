@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 
 /**
  *
@@ -22,20 +24,21 @@ public class Afirmativa implements Serializable {
     @Id
     @GeneratedValue
     private int id;
-    private String tex;
+    @OneToOne
+    private Pergunta pergunta;
     private int resposta;
 
     public Afirmativa() {
     }
 
-    public Afirmativa(int id, String tex) {
+    public Afirmativa(int id, Pergunta pergunta ) {
         this.id = id;
-        this.tex = tex;
+        this.pergunta = pergunta;
       
     }
-    public Afirmativa( String tex) {
+    public Afirmativa(Pergunta pergunta) {
      
-        this.tex = tex;
+        this.pergunta = pergunta;
       
     }
     
@@ -48,17 +51,18 @@ public class Afirmativa implements Serializable {
         this.id = id;
     }
 
-    public String getTex() {
-        return tex;
+    public Pergunta getPergunta() {
+        return pergunta;
     }
 
-    public void setTex(String tex) {
-        this.tex = tex;
+    public void setPergunta(Pergunta pergunta) {
+        this.pergunta = pergunta;
     }
 
     public int getResposta() {
         return resposta;
     }
+
 
     public void setResposta(int resposta) {
         this.resposta = resposta;
@@ -91,7 +95,7 @@ public class Afirmativa implements Serializable {
 
     @Override
     public String toString() {
-        return "Afirmativa{" + "id=" + id + ", tex=" + tex + ", resposta=" + resposta + '}';
+        return "Afirmativa{" + "id=" + id + ", tex=" + pergunta + ", resposta=" + resposta + '}';
     }
     
 

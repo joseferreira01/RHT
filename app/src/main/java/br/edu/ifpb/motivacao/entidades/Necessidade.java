@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -25,14 +27,15 @@ public class Necessidade implements Serializable {
     private Long id;
     @OneToMany(cascade={CascadeType.ALL})    
     private Set<Afirmativa> afirmativas; 
-    private String descricao;
+    @Enumerated(EnumType.STRING)
+    private TipoNecessidade descricao;
     private int total;
 
     public Necessidade() {
          this.afirmativas = new HashSet<>();
     }
 
-    public Necessidade(Long id, String descricao, int total) {
+    public Necessidade(Long id, TipoNecessidade descricao, int total) {
         this();
         this.id = id;
         this.descricao = descricao;
@@ -63,11 +66,11 @@ public class Necessidade implements Serializable {
     }
 
     public String getDescricao() {
-        return descricao;
+        return descricao.name();
     }
 
     public void setDescricao(String descricao) {
-        this.descricao = descricao;
+        this.descricao.valueOf(descricao);
     }
 
     public int getTotal() {

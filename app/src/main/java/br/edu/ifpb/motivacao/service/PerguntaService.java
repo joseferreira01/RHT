@@ -5,6 +5,7 @@
  */
 package br.edu.ifpb.motivacao.service;
 
+import br.edu.ifpb.motivacao.entidades.Pergunta;
 import br.edu.ifpb.motivacao.entidades.Usuario;
 import br.edu.ifpb.motivacao.repositorios.Repository;
 import br.edu.ifpb.motivacao.repositorios.UsuarioRepositorio;
@@ -17,25 +18,23 @@ import javax.ejb.Stateless;
  * @author jose
  */
 @Stateless
-public class UsuarioService {
+public class PerguntaService {
 
     @EJB
-    private Repository<Usuario,Long>  crud;
+    private Repository<Pergunta,Long>  crud;
     @EJB
     private UsuarioRepositorio ur;
 
-    public void salvar(Usuario usuario) {
-        crud.salvar(usuario);
+    public void salvar(Pergunta pergunta) {
+        crud.salvar(pergunta);
     }
 
-    public List<Usuario> buscarTodos() {
-        return crud.list(Usuario.class);
+    public List<Pergunta> buscarTodos() {
+        return crud.list(Pergunta.class);
     }
-    public Usuario login(String email, String senha){
-        return ur.login(email, senha);
-    }
-    public Usuario buscar(long id){
-        return crud.find(Usuario.class, id);
+  
+    public Pergunta buscar(long id){
+        return crud.find(Pergunta.class, id);
     }
 
 }

@@ -14,7 +14,7 @@
         <br/>
         <h:form>
             <c:forEach  var="item"  items="#{avaliacaoControler.avaliacao.afirmativas}">
-                <h:outputLabel value="#{item.tex}"/>
+                <h:outputLabel value="#{item.pergunta.tex}"/>
                 <br/>
                 <h:selectOneRadio value="#{item.resposta}">
                     <f:selectItem itemValue="3" itemLabel="Concordo inteiramente" />
@@ -24,7 +24,7 @@
                     <f:selectItem itemValue="-1" itemLabel="Discordo parcialmente" />
                     <f:selectItem itemValue="-2" itemLabel="Discordo" />
                     <f:selectItem itemValue="-3" itemLabel="Discordo inteiramente" />
-                    <f
+                    
 
             </h:selectOneRadio> <br />        
         </c:forEach>

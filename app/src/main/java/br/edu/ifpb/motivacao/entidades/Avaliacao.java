@@ -45,8 +45,10 @@ public class Avaliacao implements Serializable {
         this.afirmativas = new HashSet<>();
     }
 
-    public Avaliacao(Usuario usuario) {
+    public Avaliacao(Usuario avaliador) {
         this();
+        this.avaliador = avaliador;
+       
         
     }
 
@@ -86,6 +88,23 @@ public class Avaliacao implements Serializable {
     public Long getId() {
         return id;
     }
+
+    public Usuario getEntrevistado() {
+        return entrevistado;
+    }
+
+    public void setEntrevistado(Usuario entrevistado) {
+        this.entrevistado = entrevistado;
+    }
+
+    public Usuario getAvaliador() {
+        return avaliador;
+    }
+
+    public void setAvaliador(Usuario avaliador) {
+        this.avaliador = avaliador;
+    }
+    
 
     public void setId(Long id) {
         this.id = id;

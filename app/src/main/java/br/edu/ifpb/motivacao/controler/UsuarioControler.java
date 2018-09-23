@@ -60,9 +60,13 @@ public class UsuarioControler {
         try {
             Usuario login = service.login(usuario.getEmail(), usuario.getSenha());
             if (login != null) {
-                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", login);
-                return "faces/home.xhtml";
+                FacesContext.getCurrentInstance().
+                        getExternalContext()
+                        .getSessionMap().put("usuario", login);
+              if(login.getTipo()== Tipo.AVALIADOR)
+                return "faces/admin.xhtml";
             }
+             return "faces/home.xhtml";
         } catch (Exception e) {
             msg.addMessage("Dados invalidos");
 
