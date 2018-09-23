@@ -12,6 +12,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -22,44 +23,61 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class UsuarioControler {
-     @Inject
+
+    @Inject
     private Mensagem msg;
-     private int tipo;
+    private int tipo;
 
     @EJB
     private UsuarioService service;
     private Usuario usuario;
 
     public String salvar() {
-        if(tipo==1)
+        if (tipo == 1) {
             usuario.setTipo(Tipo.AVALIADOR);
-        else
+        } else {
             usuario.setTipo(Tipo.ENTREVISTADO);
+        }
         service.salvar(usuario);
-         msg.addMessage("Cadastro realizado com sucesso, faça seu login!");
-            
+        msg.addMessage("Cadastro realizado com sucesso, faça seu login!");
+
         usuario = new Usuario();
         return "index?faces-redirect=true";
-        
+
     }
-    public List<Usuario> getTodos(){
-        return  service.buscarTodos();
+
+    public List<Usuario> getTodos() {
+        return service.buscarTodos();
     }
 
     @PostConstruct
     public void init() {
         this.usuario = new Usuario();
     }
-      public String login(){
-          
-         Usuario login = service.login(usuario.getEmail(),usuario.getSenha());
-         if(login!=null){
-             msg.addMessage("Ola "+usuario.getNome()+"!");
-         return "home?faces-redirect=true";
-         }
-          msg.addMessage("Dados invalidos");
-         return null;
-      }
+
+    public String login() {
+
+        try {
+            Usuario login = service.login(usuario.getEmail(), usuario.getSenha());
+            if (login != null) {
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", login);
+                return "faces/home.xhtml";
+            }
+        } catch (Exception e) {
+            msg.addMessage("Dados invalidos");
+
+        }
+        return null;
+    }
+
+    public String logout() {
+        System.err.println("logout -----------------------------------");
+        FacesContext.getCurrentInstance().getExternalContext()
+                .invalidateSession();
+
+        return "index?faces-redirect=true";
+    }
+
     public Usuario getUsuario() {
         return usuario;
     }

@@ -1,4 +1,6 @@
+cd app
 mvn clean
+cd ..
 docker-compose down
 
 docker rm  appmotivacao
