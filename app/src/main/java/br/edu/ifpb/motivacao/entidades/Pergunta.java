@@ -7,10 +7,14 @@ package br.edu.ifpb.motivacao.entidades;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 /**
  *
@@ -20,6 +24,9 @@ import javax.persistence.Id;
 public class Pergunta implements Serializable {
     @Id
     private Long id;
+    @Column(length = 1024)
+     @Lob
+     @Basic(fetch = FetchType.LAZY)
     private String tex;
     @Enumerated(EnumType.STRING)
     private TipoNecessidade tipo;
@@ -27,9 +34,10 @@ public class Pergunta implements Serializable {
     public Pergunta() {
     }
 
-    public Pergunta(Long id, String tex) {
+    public Pergunta(Long id, String tex,TipoNecessidade necessidade) {
         this.id = id;
         this.tex = tex;
+        this.tipo = necessidade;
     }
 
     public long getId() {
@@ -47,6 +55,15 @@ public class Pergunta implements Serializable {
     public void setTex(String tex) {
         this.tex = tex;
     }
+
+    public TipoNecessidade getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoNecessidade tipo) {
+        this.tipo = tipo;
+    }
+    
 
     @Override
     public int hashCode() {
@@ -71,8 +88,10 @@ public class Pergunta implements Serializable {
             return false;
         }
         return true;
-    }
+    }    
 
-   
-    
+    @Override
+    public String toString() {
+        return "Pergunta{" + "id=" + id + ", tex=" + tex + ", tipo=" + tipo + '}';
+    }
 }

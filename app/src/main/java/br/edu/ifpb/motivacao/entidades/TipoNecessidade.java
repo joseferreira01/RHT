@@ -14,6 +14,6 @@ public enum TipoNecessidade {
     SEGURANÇA,
     PARTICIPAÇÃO,
     AUTORECONHECIMENTO,
-    AUTOREALIZAÇAO,
+    AUTOREALIZAÇAO;
 
 }

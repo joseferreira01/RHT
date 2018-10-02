@@ -1,40 +1,49 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets
-        <br/>
-        <br/>
-        <br/>
-        <h:form>
-            <c:forEach  var="item"  items="#{avaliacaoControler.avaliacao.afirmativas}">
-                <h:outputLabel value="#{item.pergunta.tex}"/>
-                <br/>
-                <h:selectOneRadio value="#{item.resposta}">
-                    <f:selectItem itemValue="3" itemLabel="Concordo inteiramente" />
-                    <f:selectItem itemValue="2" itemLabel="concordo" />
-                    <f:selectItem itemValue="1" itemLabel="Concordo parcialmente" />
-                    <f:selectItem itemValue="0" itemLabel="Estou em duvida" />
-                    <f:selectItem itemValue="-1" itemLabel="Discordo parcialmente" />
-                    <f:selectItem itemValue="-2" itemLabel="Discordo" />
-                    <f:selectItem itemValue="-3" itemLabel="Discordo inteiramente" />
-                    
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 
-            </h:selectOneRadio> <br />        
-        </c:forEach>
-        <h:commandButton value="salve" action="#{avaliacaoControler.salvar()}"/>
-    </h:form>
-    <br/>
-    <br/>
-    <br/>
+                template="template/default_layout.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">
+        <link href="resources/css/bootstrap.min.css" rel="stylesheet"/>
+        <!--<link href="resources/css/styleLogin.css" rel="stylesheet"/>-->
+       
+         <p:messages showDetail="true" showIcon="false" closable="true" showSummary="false" autoUpdate="false"/>
+           
+      <div class="quest">
+            <h:form>
+                <c:forEach  var="item"  items="#{avaliacaoControler.respostas}">
+                    <div class="pergunta"> 
+                       
+                        <h:outputLabel value="#{item.pergunta.id}"/> 
+                        <h:outputLabel value="#{item.pergunta.tex}"/> 
+                        
+                    </div>
+                    <br/>
+                    <h:selectOneRadio value="#{item.resposta}">
+                        <div class="resposta">
+                            <f:selectItem itemValue="3" itemLabel="Concordo inteiramente"  />
+                            <f:selectItem itemValue="2" itemLabel="concordo" />
+                            <f:selectItem itemValue="1" itemLabel="Concordo parcialmente" />
+                            <f:selectItem itemValue="0" itemLabel="Estou em duvida" />
+                            <f:selectItem itemValue="-1" itemLabel="Discordo parcialmente" />
+                            <f:selectItem itemValue="-2" itemLabel="Discordo" />
+                            <f:selectItem itemValue="-3" itemLabel="Discordo inteiramente" />
+                        </div>
+                    </h:selectOneRadio> <br />        
+                </c:forEach>
+                <h:commandButton value="salve" action="#{avaliacaoControler.salvar()}"/>
+            </h:form>
+        </div>
     <h:outputLabel value="#{avaliacaoControler.todos}"/>
 
-</h:body>
-</html>
+
+     <h:outputStylesheet library="css" name="styleLogin.css" />
+    </ui:define>
+    <ui:define name="footer">
+        Rodapé - home.
+    </ui:define>
+</ui:composition>
 

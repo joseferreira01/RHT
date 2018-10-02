@@ -5,15 +5,16 @@
  */
 package br.edu.ifpb.motivacao.controler;
 
-import br.edu.ifpb.motivacao.entidades.Afirmativa;
 import br.edu.ifpb.motivacao.entidades.Avaliacao;
 import br.edu.ifpb.motivacao.entidades.Pergunta;
+import br.edu.ifpb.motivacao.entidades.Resposta;
 import br.edu.ifpb.motivacao.entidades.Tipo;
 import br.edu.ifpb.motivacao.entidades.Usuario;
 import br.edu.ifpb.motivacao.service.AvalicaoService;
 import br.edu.ifpb.motivacao.service.PerguntaService;
 import br.edu.ifpb.motivacao.service.UsuarioService;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -41,20 +42,14 @@ public class avaliacaoControler implements Serializable{
     @EJB
     private UsuarioService usuarioService;
     private Avaliacao avaliacao;
-   // private Afirmativa afirmativa;
-
-//    public Afirmativa getAfirmativa() {
-//        return afirmativa;
-//    }
-//
-//    public void setAfirmativa(Afirmativa afirmativa) {
-//        this.afirmativa = afirmativa;
-//    }
+    private List<Resposta> respostas;
+   
     
     
 
     public String salvar() {
-        avaliacao.getAfirmativas().forEach(a->System.out.println(a.toString()));
+      avaliacao.setRespostas(respostas);
+        System.out.println("avaliação para valvar -> "+avaliacao);
         service.salvar(avaliacao);
       return null;
         
@@ -62,22 +57,24 @@ public class avaliacaoControler implements Serializable{
 
     @PostConstruct
     public void init() {
-         Usuario user = (Usuario) FacesContext.getCurrentInstance()
+        respostas = new ArrayList<>();
+        for (Pergunta pergunta : perguntaService.buscarTodos()) {
+            int a=1;
+            System.out.println("size"+a);
+            a++;
+            Resposta Resposta = new Resposta(pergunta);
+            respostas.add(Resposta);
+        }
+        Usuario usuario = new Usuario();
+         usuario = (Usuario) FacesContext.getCurrentInstance()
                 .getExternalContext()
                 .getSessionMap().get("usuario");
-       this.avaliacao =  service.buscarPorUsuario(user);
-         List<Pergunta> perguntas = perguntaService.buscarTodos();
-         for (Pergunta pergunta : perguntas) {
-             avaliacao.addAfirmativa(new Afirmativa(pergunta));
-            
-        }
-         //avaliacao.setAvaliador(service1.buscar(51L));
-//        avaliacao.setEntrevistado(service1.buscar(151L));
-//        afirmativa = new Afirmativa();
-//        afirmativa.setId(1);
-//        afirmativa.setPergunta(new Pergunta(1L, "pergunta A"));
-//        avaliacao.addAfirmativa(afirmativa);
-      
+         System.out.println("usuario da ava"+usuario.getNome());
+        avaliacao = new Avaliacao();
+        avaliacao.setEntrevistado(usuario);
+        
+       
+       
     }
 public  List<Avaliacao> getTodos(){
     return service.buscarTodos();
@@ -88,6 +85,10 @@ public  List<Avaliacao> getTodos(){
 
     public void setAvaliacao(Avaliacao avaliacao) {
         this.avaliacao = avaliacao;
+    }
+
+    public List<Resposta> getRespostas() {
+        return respostas;
     }
     
 

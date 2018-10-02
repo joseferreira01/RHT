@@ -6,14 +6,16 @@
 package br.edu.ifpb.motivacao.entidades;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -28,65 +30,60 @@ public class Avaliacao implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne
-//    @JoinColumn(name = "entrevistado_ID")
+    @OneToOne(fetch = FetchType.LAZY)
     private Usuario entrevistado;
-    @OneToOne
-//    @JoinColumn(name = "avaliador_ID")
-    private Usuario avaliador;
-    @OneToMany(cascade = {CascadeType.ALL})
-    private Set<Necessidade> necessidades;
+    @OneToMany 
+    @Lob
+     @Basic(fetch = FetchType.LAZY)
+    @ElementCollection()
+    private List<Resposta> respostas;
+    @ElementCollection
+    private List<Resultado> resultados;
     
-    @OneToMany(cascade = {CascadeType.ALL})
-    private Set<Afirmativa> afirmativas;
+    @OneToOne
+    private Proginostico proginostico;
 
     public Avaliacao() {
-        necessidades = new HashSet<>();
-        this.afirmativas = new HashSet<>();
-    }
-
-    public Avaliacao(Usuario avaliador) {
-        this();
-        this.avaliador = avaliador;
-       
+        this.respostas = new ArrayList<>();
+        this.resultados = new ArrayList<>();
         
     }
 
-    public void addAvaliacao(Necessidade necessidade) {
-        this.necessidades.add(necessidade);
+    public Avaliacao(Usuario Usuario) {
+        this();
+        this.entrevistado = new Usuario();
     }
 
-    public void removeAvaliacao(Necessidade necessidade) {
-        this.necessidades.remove(necessidade);
-    }
-    public void addAfirmativa(Afirmativa afirmativa) {
-        this.afirmativas.add(afirmativa);
+    public void add(Resposta resposta) {
+        this.respostas.add(resposta);
     }
 
-    public void removeAfirmativa(Afirmativa afirmativa) {
-        this.afirmativas.add(afirmativa);
+    public void remove(Resposta resposta) {
+        this.respostas.remove(resposta);
     }
 
-    public Set<Afirmativa> getAfirmativas() {
-        return afirmativas;
+    public void add(Resultado resultados) {
+        this.resultados.add(resultados);
     }
 
-    public void setAfirmativas(Set<Afirmativa> afirmativas) {
-        this.afirmativas = afirmativas;
+    public void remove(Resultado resultados) {
+        this.resultados.remove(resultados);
     }
 
-   
-
-    public Set<Necessidade> getNecessidades() {
-        return necessidades;
+    public Proginostico getProginostico() {
+        return proginostico;
     }
 
-    public void setNecessidades(Set<Necessidade> necessidades) {
-        this.necessidades = necessidades;
+    public void setProginostico(Proginostico proginostico) {
+        this.proginostico = proginostico;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Usuario getEntrevistado() {
@@ -97,46 +94,29 @@ public class Avaliacao implements Serializable {
         this.entrevistado = entrevistado;
     }
 
-    public Usuario getAvaliador() {
-        return avaliador;
+    public List<Resposta> getRespostas() {
+        return respostas;
     }
 
-    public void setAvaliador(Usuario avaliador) {
-        this.avaliador = avaliador;
-    }
-    
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setRespostas(List<Resposta> respostas) {
+        this.respostas = respostas;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public List<Resultado> getResultados() {
+        return resultados;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Avaliacao)) {
-            return false;
-        }
-        Avaliacao other = (Avaliacao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Avaliacao{" + "id=" + id + ", entrevistado=" +
-                entrevistado + ", avaliador=" + avaliador + 
-                ", necessidades=" + necessidades + ", afirmativas=" + afirmativas + '}';
+    public void setResultados(List<Resultado> resultados) {
+        this.resultados = resultados;
     }
 
    
+
+    @Override
+    public String toString() {
+        return "Avaliacao{" + "id=" + id + ", entrevistado=" + entrevistado + ", respostas=" + respostas.get(0) + ", resultados=" + resultados + ", proginosticos=" + proginostico + '}';
+    }
+    
+    
 
 }

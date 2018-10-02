@@ -6,48 +6,50 @@
 package br.edu.ifpb.motivacao.entidades;
 
 import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
-
 
 /**
  *
  * @author jose
  */
 @Entity
-public class Afirmativa implements Serializable {
+public class Resposta implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue
-    private int id;
-    @OneToOne
+    private Long id;
+    @OneToOne(cascade = {CascadeType.ALL})
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     private Pergunta pergunta;
     private int resposta;
 
-    public Afirmativa() {
+    public Resposta() {
     }
 
-    public Afirmativa(int id, Pergunta pergunta ) {
+    public Resposta(Long id, Pergunta pergunta, int resposta) {
         this.id = id;
         this.pergunta = pergunta;
-      
+        this.resposta = resposta;
     }
-    public Afirmativa(Pergunta pergunta) {
-     
-        this.pergunta = pergunta;
-      
-    }
-    
 
-    public int getId() {
+    public Resposta(Pergunta pergunta) {
+
+        this.pergunta = pergunta;
+
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -63,7 +65,6 @@ public class Afirmativa implements Serializable {
         return resposta;
     }
 
-
     public void setResposta(int resposta) {
         this.resposta = resposta;
     }
@@ -71,7 +72,7 @@ public class Afirmativa implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + this.id;
+        hash = 89 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -86,8 +87,8 @@ public class Afirmativa implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Afirmativa other = (Afirmativa) obj;
-        if (this.id != other.id) {
+        final Resposta other = (Resposta) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -95,14 +96,7 @@ public class Afirmativa implements Serializable {
 
     @Override
     public String toString() {
-        return "Afirmativa{" + "id=" + id + ", tex=" + pergunta + ", resposta=" + resposta + '}';
+        return "Resposta{" + "id=" + id + ", pergunta=" + pergunta + ", resposta=" + resposta + '}';
     }
-    
 
-   
-
-    
-
-   
-    
 }

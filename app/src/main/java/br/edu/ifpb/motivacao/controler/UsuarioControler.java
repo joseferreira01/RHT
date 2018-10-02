@@ -33,16 +33,22 @@ public class UsuarioControler {
     private Usuario usuario;
 
     public String salvar() {
+        String retono = "questionario?faces-redirect=true";
         if (tipo == 1) {
             usuario.setTipo(Tipo.AVALIADOR);
+            retono = "index?faces-redirect=true";
         } else {
             usuario.setTipo(Tipo.ENTREVISTADO);
         }
         service.salvar(usuario);
         msg.addMessage("Cadastro realizado com sucesso, faça seu login!");
+        FacesContext.getCurrentInstance().
+                getExternalContext()
+                .getSessionMap().put("usuario", usuario);
+        System.err.println("entrevistado "+usuario.getNome());
 
         usuario = new Usuario();
-        return "index?faces-redirect=true";
+        return retono;
 
     }
 
@@ -63,10 +69,11 @@ public class UsuarioControler {
                 FacesContext.getCurrentInstance().
                         getExternalContext()
                         .getSessionMap().put("usuario", login);
-              if(login.getTipo()== Tipo.AVALIADOR)
-                return "faces/admin.xhtml";
+                if (login.getTipo() == Tipo.AVALIADOR) {
+                    return "faces/admin.xhtml";
+                }
             }
-             return "faces/home.xhtml";
+            return "faces/home.xhtml";
         } catch (Exception e) {
             msg.addMessage("Dados invalidos");
 

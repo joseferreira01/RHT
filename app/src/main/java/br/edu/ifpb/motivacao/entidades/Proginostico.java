@@ -89,4 +89,9 @@ public class Proginostico implements Serializable {
         this.tipo = tipo;
     }
 
+    @Override
+    public String toString() {
+        return "Proginostico{" + "id=" + id + ", resultado=" + resultado + ", tipo=" + tipo + '}';
+    }
+
 }
